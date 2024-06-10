@@ -859,21 +859,23 @@ vim.api.nvim_create_autocmd('BufReadPost', {
 
 --
 --
--- Set the temporary directory path
---
---
--- Create a function to write the current working directory to a file
-local function write_cwd_to_file()
+-- Neovim Buffer Directory Management
+-- Link to Neovim documentation for OSC 7: || https://neovim.io/doc/user/terminal.html#terminal-osc7 ||
+
+-- Function to update parent shell directory
+function UpdateParentShellCWD()
   local cwd = vim.fn.getcwd()
-  local tmp_dir = vim.fn.expand '~/.tmp/nvim'
-  local tmp_file = tmp_dir .. '/cwd'
-
-  -- Ensure the temporary directory exists
-  vim.fn.mkdir(tmp_dir, 'p')
-
-  -- Write the current working directory to the file
-  vim.fn.writefile({ cwd }, tmp_file)
+  local temp_file = '/tmp/nvim_last_dir'
+  local file = io.open(temp_file, 'w')
+  if file then
+    file:write('cd ' .. cwd .. '\n')
+    file:close()
+  end
 end
 
--- Test the function by calling it directly
-write_cwd_to_file()
+-- Autocommand to update the parent shell directory on various events
+vim.api.nvim_create_autocmd({ 'BufLeave', 'VimLeavePre', 'WinLeave', 'TabLeave' }, {
+  callback = function()
+    UpdateParentShellCWD()
+  end,
+})
