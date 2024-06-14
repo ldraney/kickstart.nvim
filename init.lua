@@ -22,7 +22,7 @@ vim.g.have_nerd_font = false
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -878,4 +878,21 @@ vim.api.nvim_create_autocmd({ 'BufLeave', 'VimLeavePre', 'WinLeave', 'TabLeave' 
   callback = function()
     UpdateParentShellCWD()
   end,
+})
+
+-- Function to enable line numbers in netrw
+local function setup_netrw()
+  -- Check if we are in a netrw buffer
+  if vim.bo.filetype == 'netrw' then
+    -- Enable line numbers
+    vim.wo.number = true
+    -- Optional: enable relative line numbers
+    vim.wo.relativenumber = true
+  end
+end
+
+-- Create an autocmd to run the setup_netrw function when entering a buffer
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'netrw',
+  callback = setup_netrw,
 })
