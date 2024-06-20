@@ -699,6 +699,8 @@ require('lazy').setup({
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'folke/tokyonight.nvim',
+    -- { "ellisonleao/gruvbox.nvim", priority = 1000 , config = true, opts = ...}
+    'ellisonleao/gruvbox.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
       -- Load the colorscheme here.
@@ -895,4 +897,21 @@ end
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'netrw',
   callback = setup_netrw,
+})
+
+-- Function to enable line numbers in help documentation
+local function setup_help()
+  -- Check if we are in a help buffer
+  if vim.bo.filetype == 'help' then
+    -- Enable line numbers
+    vim.wo.number = true
+    -- Optional: enable relative line numbers
+    vim.wo.relativenumber = true
+  end
+end
+
+-- Create an autocmd to run the setup_help function when entering a buffer
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'help',
+  callback = setup_help,
 })
