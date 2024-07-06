@@ -910,21 +910,25 @@ local function setup_help()
   end
 end
 
+-- Enable clipboard integration
+vim.o.clipboard = 'unnamedplus'
+
 -- Create an autocmd to run the setup_help function when entering a buffer
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'help',
   callback = setup_help,
 })
 
-vim.g.clipboard = {
-  name = 'WslClipboard',
-  copy = {
-    ['+'] = 'clip.exe',
-    ['*'] = 'clip.exe',
-  },
-  paste = {
-    ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-    ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-  },
-  cache_enabled = 0,
-}
+-- no longer necessary due to wayland!
+-- vim.g.clipboard = {
+--   name = 'wl-clipboard',
+--   copy = {
+--     ['+'] = { 'wl-copy' },
+--     ['*'] = { 'wl-copy' },
+--   },
+--   paste = {
+--     ['+'] = { 'wl-paste' },
+--     ['*'] = { 'wl-paste' },
+--   },
+--   cache_enabled = 1,
+-- }
