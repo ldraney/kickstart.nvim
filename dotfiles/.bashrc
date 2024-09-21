@@ -146,3 +146,13 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
+obs-quartz-sync() {
+    echo "Starting Obsidian-Quartz sync..."
+    bash ~/projects/iss-digital-garden/scripts/bidirectional-sync.sh
+    if [ $? -eq 0 ]; then
+        echo "Sync completed successfully."
+    else
+        echo "Sync encountered an error. Please check the output above."
+    fi
+}
