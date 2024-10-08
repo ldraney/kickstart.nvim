@@ -156,3 +156,9 @@ obs-quartz-sync() {
         echo "Sync encountered an error. Please check the output above."
     fi
 }
+#
+# WSL clipboard support
+if [ -n "$WSL_DISTRO_NAME" ]; then
+  alias pbcopy="clip.exe"
+  alias pbpaste="powershell.exe -command 'Get-Clipboard' | tr -d '\r'"
+fi
