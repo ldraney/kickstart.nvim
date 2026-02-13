@@ -636,7 +636,7 @@ require('lazy').setup({
       --
       -- You can press `g?` for help in this menu.
       local ensure_installed = {
-        'lua_ls', -- Lua Language server
+        'lua-language-server', -- Mason name for lua_ls
         'typescript-language-server', -- Mason name for ts_ls
         'stylua', -- Used to format Lua code
       }
